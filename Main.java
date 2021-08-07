@@ -38,7 +38,6 @@ public class Main{
                             try{
                                 String script = workPath + File.separatorChar + s ;
                                 script = "\"" + script + "\"" ;
-                                System.out.println( "Comando a ejecutar : " + script ) ;
                                 Process prc = Runtime.getRuntime().exec( "cmd /C " + script ) ;
                                 InputStream stdout = prc.getInputStream() ;
                                 InputStream stderr = prc.getErrorStream() ;
@@ -46,11 +45,11 @@ public class Main{
                                 OutputReader osE = new OutputReader( stderr ) ;
                                 osI.start() ;
                                 osE.start() ;
-                                int exitValue = prc.waitFor() ;
-                                if( exitValue != 0 ){
+                                //int exitValue = prc.waitFor() ;
+                                //frame.setVisible( true ) ;
+                                /*if( exitValue != 0 ){
                                     throw new IOException() ;
-                                }
-
+                                }*/
                             }catch( IOException ioe ){
                                 System.out.println( "Error al ejecutar " + s ) ;
                                 ioe.printStackTrace() ;
@@ -91,23 +90,18 @@ class OutputReader extends Thread{
     private static BufferedReader br ;
     public OutputReader( InputStream is ){
         this.br = new BufferedReader( new InputStreamReader( is ) ) ;
-        System.out.println( "Creo hilo" ) ;
     }
 
     public void run(){
-        System.out.println( "Recibiendo stream" ) ;
         try{
             String line;
             while( ( line = br.readLine() ) != null ){
-                System.out.println( line ) ;
             }
         }catch( IOException ioe ){
-            System.out.println( "Error al leer output" ) ;
         }finally{
             try{
                 br.close() ;
             }catch( Exception e){}
         }
-        System.out.println("Finalizo") ;
     }
 }
